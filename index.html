@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#176b87">
+    <link rel="manifest" href="manifest.json">
+    <title>Smart Medicine Reminder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.emailjs.com/sdk/4.4.1/email.min.js"></script>
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="topbar">
+            <a class="brand" href="#" data-action="dashboard"><span class="brand-mark">+</span><span><strong>Smart
+                        Medicine</strong><small>Reminder</small></span></a>
+            <div class="top-actions"><button class="quiet-button" data-action="profile">Profile</button><button
+                    class="quiet-button" data-action="dashboard">Dashboard</button><a class="quiet-button"
+                    href="caregiver-login.html">Family login</a></div>
+        </header>
+        <main>
+            <section id="profile-view" class="view">
+                <div class="intro"><span class="eyebrow">Private care planner</span>
+                    <h1>Build a calmer medicine routine.</h1>
+                    <p>Set up the patient profile once, then keep every disease, medicine, dose, and reminder in one
+                        dependable dashboard.</p>
+                </div>
+                <form id="profile-form" class="panel form-panel" novalidate>
+                    <div class="panel-heading">
+                        <div><span class="eyebrow">Step 1</span>
+                            <h2>Patient profile</h2>
+                        </div><span class="required-note">Required fields marked *</span>
+                    </div>
+                    <div class="form-grid two-columns"><label>Patient name *<input id="patient-name" name="patientName"
+                                autocomplete="name" required></label><label>Age *<input id="patient-age" name="age"
+                                type="number" min="1" max="130" required></label><label>Gender *<select
+                                id="patient-gender" name="gender" required>
+                                <option value="">Select gender</option>
+                                <option>Female</option>
+                                <option>Male</option>
+                                <option>Non-binary</option>
+                                <option>Prefer not to say</option>
+                            </select></label><label>Preferred language *<select id="preferred-language" required>
+                                <option value="en-US">English</option>
+                                <option value="hi-IN">Hindi</option>
+                                <option value="te-IN">Telugu</option>
+                                <option value="ta-IN">Tamil</option>
+                                <option value="ml-IN">Malayalam</option>
+                                <option value="kn-IN">Kannada</option>
+                            </select></label><label>Caregiver name *<input id="caregiver-name" name="caregiverName"
+                                required></label><label>Caregiver email *<input id="caregiver-email" type="email"
+                                required placeholder="caregiver@example.com"></label></div>
+                    <div class="section-divider"><span class="eyebrow">Family</span>
+                        <h2>Family details</h2>
+                        <p>Family members can be invited to monitor this patient.</p>
+                    </div>
+                    <div id="family-members"></div><button id="add-family-member" class="outline-button" type="button">+
+                        Add family member</button>
+                    <div class="section-divider"><span class="eyebrow">Step 2</span>
+                        <h2>Conditions</h2>
+                        <p>Select all that apply. Suggestions are educational and should be checked with a clinician.
+                        </p>
+                    </div>
+                    <label class="library-search-label">Search disease library
+                        <input id="disease-search" type="search" placeholder="Try diabetes, sugar, BP, TB, migraine">
+                    </label>
+                    <div id="disease-list" class="choice-grid"></div>
+                    <div class="section-divider"><span class="eyebrow">Step 3</span>
+                        <h2>Medicines and reminders</h2>
+                        <p>Add at least one medicine. Suggested medicines can be edited before saving.</p>
+                    </div>
+                    <label class="library-search-label">Search medicine library or type a custom medicine
+                        <input id="medicine-search" type="search" placeholder="Search generic or brand name">
+                    </label>
+                    <div id="medicine-suggestions" class="suggestion-list"></div>
+                    <div id="medicine-editor" class="medicine-editor"></div>
+                    <button id="add-medicine" class="outline-button" type="button">+ Add custom medicine</button>
+                    <div id="profile-error" class="error-message" role="alert"></div>
+                    <button class="primary-button save-button" type="submit">Save profile and open dashboard</button>
+                </form>
+            </section>
+            <section id="dashboard-view" class="view hidden">
+                <div class="dashboard-hero">
+                    <div><span class="eyebrow">Today, <span id="today-label"></span></span>
+                        <h1>Stay on time.<br><em>Feel in control.</em></h1>
+                        <p>Your care plan, reminders, and emergency details in one clear view.</p>
+                    </div>
+                    <div class="safety-note"><strong>Safety first</strong><span>Educational support only. Follow your
+                            prescription and contact a clinician for medical advice.</span></div>
+                </div>
+                <div class="notification-settings"><label><input id="mute-audio" type="checkbox"> Mute alarm and
+                        voice</label><span class="muted">Keep this page open for automatic email alerts to work
+                        reliably.</span><label>Voice <select id="voice-select">
+                            <option value="">System default</option>
+                        </select></label><label>Speech language <select id="speech-language">
+                            <option value="en-US">English</option>
+                            <option value="hi-IN">Hindi</option>
+                            <option value="te-IN">Telugu</option>
+                        </select></label></div>
+                <div id="dashboard-alert" class="alert hidden"></div>
+                <div class="summary-grid">
+                    <article class="summary-card"><span>Next dose</span><strong id="next-dose">No
+                            reminders</strong><small id="next-dose-time">Add a medicine to begin</small></article>
+                    <article class="summary-card"><span>Today's progress</span><strong id="progress-value">0%</strong>
+                        <div class="progress">
+                            <div id="progress-bar"></div>
+                        </div>
+                    </article>
+                    <article class="summary-card"><span>Caregiver email</span><strong id="caregiver-display">Not
+                            set</strong><small>Email reminder recipient</small>
+                    </article>
+                </div>
+                <div class="dashboard-grid">
+                    <section class="panel schedule-panel">
+                        <div class="panel-heading">
+                            <div><span class="eyebrow">Medication plan</span>
+                                <h2>Today's reminders</h2>
+                            </div><button class="outline-button compact" data-action="profile">Edit plan</button>
+                        </div>
+                        <div id="reminder-list"></div>
+                    </section>
+                    <aside class="side-column">
+                        <section class="panel profile-summary">
+                            <div class="panel-heading">
+                                <div><span class="eyebrow">Patient</span>
+                                    <h2 id="patient-display">Profile</h2>
+                                </div><button class="icon-button" data-action="profile"
+                                    title="Edit profile">Edit</button>
+                            </div>
+                            <dl id="profile-details"></dl>
+                        </section>
+                        <section class="panel library-panel"><span class="eyebrow">Knowledge guide</span>
+                            <h2>Search library</h2>
+                            <p>Search common diseases and medicines for general guidance.</p>
+                            <div class="search-row"><input id="library-search"
+                                    placeholder="Try diabetes or metformin"><button id="search-button"
+                                    class="primary-button" type="button">Search</button></div>
+                            <div id="search-results" class="search-results"></div>
+                        </section>
+                        <section class="panel history-panel"><span class="eyebrow">Email status</span>
+                            <h2>Email reminder history</h2>
+                            <div id="email-status">
+                                <p class="muted">No email sent yet.</p>
+                            </div>
+                        </section>
+                    </aside>
+                </div>
+            </section>
+        </main>
+        <footer>Smart Medicine Reminder stores data in this browser. For urgent symptoms, call local emergency services.
+        </footer>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <script src="data.js"></script>
+    <script src="languagePhrases.js"></script>
+    <script src="notification-config.js"></script>
+    <script type="module" src="firebase-patient.js"></script>
+    <script src="script.js"></script>
+    <script>
+        if ("serviceWorker" in navigator && window.location.protocol !== "file:") {
+            navigator.serviceWorker.register("service-worker.js").catch(() => { });
+        }
+    </script>
+</body>
+
+</html>
