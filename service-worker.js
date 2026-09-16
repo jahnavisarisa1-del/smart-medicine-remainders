@@ -1,5 +1,5 @@
-const CACHE_NAME = "smart-medicine-reminder-v1";
-const APP_ASSETS = ["/", "/index.html", "/style.css", "/data.js", "/script.js", "/manifest.json"];
+const CACHE_NAME = "smart-medicine-reminder-v2";
+const APP_ASSETS = ["./", "./index.html", "./style.css", "./data.js", "./languagePhrases.js", "./notification-config.js", "./firebase-patient.js", "./firebase-config.js", "./script.js", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
     event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(APP_ASSETS)));

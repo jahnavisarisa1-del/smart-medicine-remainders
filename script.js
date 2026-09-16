@@ -8,6 +8,8 @@
     paid SMS, calling, or paid email API is used by this frontend. */
 const STORAGE_KEY = "smartMedicineReminderData";
 const API_BASE = window.SMART_MEDICINE_API || "";
+const IS_GITHUB_PAGES = window.location.hostname.endsWith(".github.io");
+const HAS_BACKEND = Boolean(window.SMART_MEDICINE_API) || !IS_GITHUB_PAGES;
 let selectedDiseaseNames = new Set();
 const MISSED_DOSE_GRACE_MINUTES = 5;
 const activeAlarms = Object.create(null);
@@ -124,7 +126,7 @@ function checkAndSendAlert(reminderId) {
         .catch((error) => { console.error("Automatic alert email failed:", error); showToast(`Failed to alert ${recipient.name || recipient.email}`); })))
         .then((results) => {
             if (results.some((result) => result.status === "fulfilled")) showToast("Missed-dose alert sent to family");
-            fetch(`${API_BASE}/api/mark-missed`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reminderId: active.sourceReminderId }) }).catch(() => { });
+            if (HAS_BACKEND) fetch(`${API_BASE}/api/mark-missed`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reminderId: active.sourceReminderId }) }).catch(() => { });
             removeActiveReminder(reminderId);
         });
 }
@@ -419,7 +421,7 @@ async function saveProfile(event) {
 }
 
 async function syncProfileToServer(profile, reminders) {
-    try {
+    if (HAS_BACKEND) try {
         const cloud = await window.smartMedicineCloudReady;
         const identity = cloud?.getIdentity?.();
         if (window.location.protocol !== "file:") {
@@ -629,7 +631,7 @@ async function onConfirmed(medicineId, status, timestamp) {
     const data = readData();
     const patientId = data.profile?.patientId || "local-patient";
     updateReminderWithMethod(medicineId, "voice", timestamp);
-    try {
+    if (HAS_BACKEND) try {
         const response = await fetch(`${API_BASE}/api/medicine-confirmation`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ medicine_id: medicineId, patient_id: patientId, status, confirmed_at: timestamp }) });
         if (!response.ok) throw new Error("Confirmation sync failed");
     } catch (error) { showToast("Saved here; server sync is unavailable."); }
@@ -668,6 +670,7 @@ function playConfirmationSound() {
 }
 
 async function syncTakenToServer(reminderId, confirmedVia = "button") {
+    if (!HAS_BACKEND) return;
     try {
         const response = await fetch(`${API_BASE}/api/mark-taken`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ reminderId, confirmedVia }) });
         if (!response.ok) throw new Error("Could not sync taken status");
@@ -677,6 +680,7 @@ async function syncTakenToServer(reminderId, confirmedVia = "button") {
 }
 
 async function syncServerState() {
+    if (!HAS_BACKEND) return;
     try {
         const response = await fetch(`${API_BASE}/api/state`, { cache: "no-store" });
         if (!response.ok) return;
