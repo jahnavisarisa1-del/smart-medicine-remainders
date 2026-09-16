@@ -1,0 +1,21 @@
+{
+    "name": "smart-medicine-reminder",
+    "version": "1.0.0",
+    "private": true,
+    "description": "Smart Medicine Reminder with caregiver email reminders",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "node server.js"
+    },
+    "engines": {
+        "node": ">=18"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "dotenv": "^16.4.7",
+        "express": "^4.21.2",
+        "node-cron": "^4.2.1",
+        "nodemailer": "^10.0.2"
+    }
+}

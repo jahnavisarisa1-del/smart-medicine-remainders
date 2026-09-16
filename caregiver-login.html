@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Caregiver login | Smart Medicine Reminder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="auth-shell">
+        <section class="panel auth-panel"><span class="eyebrow">Family access</span>
+            <h1>Caregiver dashboard</h1>
+            <p>Sign in to monitor a linked patient securely from another device.</p>
+            <form id="caregiver-auth-form"><label>Email<input id="caregiver-email" type="email" required
+                        autocomplete="email"></label><label>Password<input id="caregiver-password" type="password"
+                        minlength="6" required autocomplete="current-password"></label><label>Patient ID or registered
+                    phone <input id="patient-lookup" required placeholder="Patient ID or phone"></label>
+                <div class="auth-actions"><button id="login-button" class="primary-button" type="submit">Log
+                        in</button><button id="signup-button" class="outline-button" type="button">Create account and
+                        link</button></div>
+                <p id="auth-message" class="error-message" role="alert"></p>
+            </form>
+            <p><a href="index.html">Back to patient app</a></p>
+        </section>
+    </main>
+    <script type="module" src="caregiver-auth.js"></script>
+</body>
+
+</html>

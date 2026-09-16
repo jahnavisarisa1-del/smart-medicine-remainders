@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Caregiver dashboard | Smart Medicine Reminder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="app-shell caregiver-shell">
+        <header class="topbar"><a class="brand" href="index.html"><span class="brand-mark">+</span><span><strong>Smart
+                        Medicine</strong><small>Family dashboard</small></span></a><button id="logout-button"
+                class="quiet-button">Log out</button></header>
+        <section id="caregiver-loading" class="panel">Loading linked patient...</section>
+        <section id="caregiver-content" class="hidden">
+            <p id="family-monitored-by" class="muted"></p>
+            <section id="family-patient-list" class="family-patient-list" aria-label="Linked patients"></section>
+            <div class="dashboard-hero">
+                <div><span class="eyebrow">Live patient monitoring</span>
+                    <h1 id="family-patient-name">Patient</h1>
+                    <p id="family-diseases"></p>
+                </div>
+                <div class="safety-note"><strong>Real-time updates</strong><span>This dashboard listens for Firestore
+                        changes while connected.</span></div>
+            </div>
+            <div class="summary-grid">
+                <article class="summary-card"><span>Today's schedule</span><strong id="family-dose-count">0</strong>
+                </article>
+                <article class="summary-card"><span>Missed doses</span><strong id="family-missed-count">0</strong>
+                </article>
+                <article class="summary-card emergency-card"><span>Patient contact</span><strong id="family-contact">Not
+                        provided</strong></article>
+            </div>
+            <section class="panel"><span class="eyebrow">Medication status</span>
+                <h2>Today's reminders</h2>
+                <div id="family-reminders"></div>
+            </section>
+            <div class="dashboard-grid family-lower">
+                <section class="panel"><span class="eyebrow">Dose events</span>
+                    <h2>Missed dose history</h2>
+                    <div id="family-dose-log"></div>
+                </section>
+                <section class="panel"><span class="eyebrow">Communication audit</span>
+                    <h2>Email alerts</h2>
+                    <div id="family-alert-log"></div>
+                </section>
+            </div>
+        </section>
+        <p id="caregiver-error" class="error-message"></p>
+    </main>
+    <script type="module" src="caregiver-dashboard.js"></script>
+</body>
+
+</html>

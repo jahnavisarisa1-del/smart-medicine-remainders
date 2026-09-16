@@ -1,0 +1,10 @@
+{
+    "name": "Smart Medicine Reminder",
+    "short_name": "Medicine Reminder",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#f2f7f6",
+    "theme_color": "#176b87",
+    "description": "Private medicine schedules and caregiver alerts.",
+    "icons": []
+}

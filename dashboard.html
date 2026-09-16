@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#176b87">
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.emailjs.com/sdk/4.4.1/email.min.js"></script>
+    <title>Smart Medicine Reminder | Dashboard</title>
+</head>
+
+<body>
+    <div class="app-shell">
+        <header class="topbar"><a class="brand" href="dashboard.html"><span
+                    class="brand-mark">+</span><span><strong>Smart Medicine</strong><small>Reminder</small></span></a>
+            <div class="top-actions"><a class="quiet-button" href="index.html">Edit profile</a><a class="quiet-button"
+                    href="caregiver-login.html">Family login</a></div>
+        </header>
+        <main>
+            <section id="dashboard-view" class="view">
+                <div class="dashboard-hero">
+                    <div><span class="eyebrow">Today, <span id="today-label"></span></span>
+                        <h1>Stay on time.<br><em>Feel in control.</em></h1>
+                        <p>Your care plan and reminder schedule in one clear view.</p>
+                    </div>
+                    <div class="safety-note"><strong>Safety first</strong><span>Follow your prescription and contact a
+                            clinician for medical advice.</span></div>
+                </div>
+                <div class="notification-settings"><button id="settings-button" class="outline-button compact"
+                        type="button">Settings</button><label><input id="mute-audio" type="checkbox"> Mute alarm and
+                        voice</label><span class="muted">Keep this page open for automatic email alerts to work
+                        reliably.</span><label>Voice <select id="voice-select">
+                            <option value="">System default</option>
+                        </select></label><button id="voice-confirm-button" class="outline-button compact"
+                        type="button">Enable voice confirmation</button></div>
+                <div id="dashboard-alert" class="alert hidden"></div>
+                <div class="summary-grid">
+                    <article class="summary-card"><span>Next dose</span><strong id="next-dose">No
+                            reminders</strong><small id="next-dose-time">Add a medicine to begin</small></article>
+                    <article class="summary-card"><span>Today's progress</span><strong id="progress-value">0%</strong>
+                        <div class="progress">
+                            <div id="progress-bar"></div>
+                        </div>
+                    </article>
+                    <article class="summary-card"><span>Caregiver email</span><strong id="caregiver-display">Not
+                            set</strong><small>Email reminder recipient</small></article>
+                </div>
+                <div class="dashboard-grid">
+                    <section class="panel schedule-panel">
+                        <div class="panel-heading">
+                            <div><span class="eyebrow">Medication plan</span>
+                                <h2>Today's reminders</h2>
+                                <p class="voice-help">You can speak instead of typing. Say yes after taking a medicine.
+                                </p>
+                            </div>
+                        </div>
+                        <div id="reminder-list"></div>
+                    </section>
+                    <aside class="side-column">
+                        <section class="panel profile-summary">
+                            <div class="panel-heading">
+                                <div><span class="eyebrow">Patient</span>
+                                    <h2 id="patient-display">Profile</h2>
+                                </div>
+                            </div>
+                            <dl id="profile-details"></dl>
+                        </section>
+                        <section class="panel library-panel"><span class="eyebrow">Knowledge guide</span>
+                            <h2>Search library</h2>
+                            <p>Search common diseases and medicines for general guidance.</p>
+                            <div class="search-row"><input id="library-search"
+                                    placeholder="Try diabetes or metformin"><button id="search-button"
+                                    class="primary-button" type="button">Search</button></div>
+                            <div id="search-results" class="search-results"></div>
+                        </section>
+                        <section class="panel history-panel"><span class="eyebrow">Email status</span>
+                            <h2>Email reminder history</h2>
+                            <div id="email-status">
+                                <p class="muted">No email sent yet.</p>
+                            </div>
+                        </section>
+                    </aside>
+                </div>
+            </section>
+        </main>
+        <footer>Smart Medicine Reminder stores data in this browser. For urgent symptoms, call local emergency services.
+        </footer>
+    </div>
+    <div id="toast" class="toast" role="status"></div>
+    <aside id="settings-panel" class="settings-panel hidden" aria-label="Settings"><button id="settings-close"
+            class="settings-close" type="button">Close</button>
+        <h2>Voice assistant</h2><label>Language<select id="settings-language">
+                <option value="en-US">English</option>
+                <option value="hi-IN">Hindi</option>
+                <option value="ta-IN">Tamil</option>
+                <option value="ml-IN">Malayalam</option>
+                <option value="kn-IN">Kannada</option>
+                <option value="fil-PH">Filipino</option>
+            </select></label>
+        <label><input id="voice-confirmation-enabled" type="checkbox"> Voice confirmation enabled</label>
+        <label><input id="normal-email-enabled" type="checkbox"> Send normal reminder emails</label>
+        <label hidden><input id="test-mode-enabled" type="checkbox"> Test Mode (15 seconds)</label>
+        <button id="send-test-email" class="outline-button compact" type="button">Send Test Email</button>
+        <p id="settings-note" class="muted"></p>
+    </aside>
+    <script src="data.js"></script>
+    <script src="languagePhrases.js"></script>
+    <script src="notification-config.js"></script>
+    <script type="module" src="firebase-patient.js"></script>
+    <script src="script.js"></script>
+    <script>if ("serviceWorker" in navigator && location.protocol !== "file:") navigator.serviceWorker.register("service-worker.js").catch(() => { });</script>
+</body>
+
+</html>

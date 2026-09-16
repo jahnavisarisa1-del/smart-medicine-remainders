@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Patient login | Smart Medicine Reminder</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="auth-shell">
+        <section class="panel auth-panel">
+            <span class="eyebrow">Private care planner</span>
+            <h1>Patient login</h1>
+            <p>Sign in to open your medicine plan, or create an account to set it up.</p>
+            <form id="patient-auth-form">
+                <label>Email<input id="patient-email" type="email" required autocomplete="email"></label>
+                <label>Password<input id="patient-password" type="password" minlength="6" required
+                        autocomplete="current-password"></label>
+                <div class="auth-actions">
+                    <button class="primary-button" type="submit">Log in</button>
+                    <button id="patient-signup-button" class="outline-button" type="button">Create account</button>
+                </div>
+                <p id="patient-auth-message" class="error-message" role="alert"></p>
+            </form>
+            <p><a href="caregiver-login.html">Family caregiver login</a></p>
+        </section>
+    </main>
+    <script type="module" src="patient-auth.js"></script>
+</body>
+
+</html>
